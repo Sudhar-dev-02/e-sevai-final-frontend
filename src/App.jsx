@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { ToastProvider } from './components/common/Toast';
 import Loading from './components/common/Loading';
@@ -63,7 +63,7 @@ function App() {
   return (
     <AuthProvider>
       <ToastProvider>
-        <Router basename="/e-sevai-final-frontend/">
+        <Router >
           <div style={styles.app}>
             <Routes>
             {/* Public routes */}
