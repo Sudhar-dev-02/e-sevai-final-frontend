@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { HashRouter, Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { ToastProvider } from './components/common/Toast';
 import Loading from './components/common/Loading';
@@ -17,17 +17,13 @@ import EmployeeDashboard from './pages/EmployeeDashboard';
 import EmployeeWorks from './pages/EmployeeWorks';
 import EmployeeReports from './pages/EmployeeReports';
 
-// Protected route component
-const ProtectedRoute = ({ children, requiredRole }) => {
+// Protected route wrapper
+const ProtectedRoute = ({ requiredRole }) => {
   const { isAuthenticated, isAdmin, isEmployee, loading } = useAuth();
 
-  if (loading) {
-    return <Loading text="Checking authentication..." />;
-  }
+  if (loading) return <Loading text="Checking authentication..." />;
 
-  if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
-  }
+  if (!isAuthenticated) return <Navigate to="/login" replace />;
 
   if (requiredRole === 'admin' && !isAdmin) {
     return <Navigate to="/employee/dashboard" replace />;
@@ -37,78 +33,47 @@ const ProtectedRoute = ({ children, requiredRole }) => {
     return <Navigate to="/admin/dashboard" replace />;
   }
 
-  return children;
-};
-
-// Redirect authenticated users
-const AuthRedirect = () => {
-  const { isAuthenticated, isAdmin, isEmployee, loading } = useAuth();
-
-  if (loading) {
-    return <Loading text="Loading..." />;
-  }
-
-  if (isAuthenticated) {
-    if (isAdmin) {
-      return <Navigate to="/admin/dashboard" replace />;
-    } else if (isEmployee) {
-      return <Navigate to="/employee/dashboard" replace />;
-    }
-  }
-
-  return <Login />;
+  return (
+    <>
+      <Navbar />
+      <div style={styles.content}>
+        <Outlet />
+      </div>
+    </>
+  );
 };
 
 function App() {
   return (
     <AuthProvider>
       <ToastProvider>
-        <Router >
+        <HashRouter>
           <div style={styles.app}>
             <Routes>
-            {/* Public routes */}
-<Route path="/login" element={<Login />} />            
-            {/* Admin routes */}
-            <Route path="/admin/*" element={
-              <ProtectedRoute requiredRole="admin">
-                <>
-                  <Navbar />
-                  <div style={styles.content}>
-                    <Routes>
-                      <Route path="dashboard" element={<AdminDashboard />} />
-                      <Route path="works" element={<AdminWorks />} />
-                      <Route path="employees" element={<AdminEmployees />} />
-                      <Route path="reports" element={<AdminReports />} />
-                      <Route path="*" element={<Navigate to="/admin/dashboard" replace />} />
-                    </Routes>
-                  </div>
-                </>
-              </ProtectedRoute>
-            } />
+              {/* Public */}
+              <Route path="/login" element={<Login />} />
 
-            {/* Employee routes */}
-            <Route path="/employee/*" element={
-              <ProtectedRoute requiredRole="employee">
-                <>
-                  <Navbar />
-                  <div style={styles.content}>
-                    <Routes>
-                      <Route path="dashboard" element={<EmployeeDashboard />} />
-                      <Route path="works" element={<EmployeeWorks />} />
-                      <Route path="reports" element={<EmployeeReports />} />
-                      <Route path="*" element={<Navigate to="/employee/dashboard" replace />} />
-                    </Routes>
-                  </div>
-                </>
-              </ProtectedRoute>
-            } />
+              {/* Admin */}
+              <Route element={<ProtectedRoute requiredRole="admin" />}>
+                <Route path="/admin/dashboard" element={<AdminDashboard />} />
+                <Route path="/admin/works" element={<AdminWorks />} />
+                <Route path="/admin/employees" element={<AdminEmployees />} />
+                <Route path="/admin/reports" element={<AdminReports />} />
+              </Route>
 
-            {/* Default redirect */}
-            <Route path="/" element={<Navigate to="/login" replace />} />
-            <Route path="*" element={<Navigate to="/login" replace />} />
-          </Routes>
-        </div>
-      </Router>
+              {/* Employee */}
+              <Route element={<ProtectedRoute requiredRole="employee" />}>
+                <Route path="/employee/dashboard" element={<EmployeeDashboard />} />
+                <Route path="/employee/works" element={<EmployeeWorks />} />
+                <Route path="/employee/reports" element={<EmployeeReports />} />
+              </Route>
+
+              {/* Redirects */}
+              <Route path="/" element={<Navigate to="/login" replace />} />
+              <Route path="*" element={<Navigate to="/login" replace />} />
+            </Routes>
+          </div>
+        </HashRouter>
       </ToastProvider>
     </AuthProvider>
   );
