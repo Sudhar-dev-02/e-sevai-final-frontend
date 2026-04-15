@@ -17,6 +17,10 @@ import EmployeeDashboard from './pages/EmployeeDashboard';
 import EmployeeWorks from './pages/EmployeeWorks';
 import EmployeeReports from './pages/EmployeeReports';
 
+
+
+
+
 // Protected route wrapper
 const ProtectedRoute = ({ requiredRole }) => {
   const { isAuthenticated, isAdmin, isEmployee, loading } = useAuth();
@@ -32,6 +36,10 @@ const ProtectedRoute = ({ requiredRole }) => {
   if (requiredRole === 'employee' && !isEmployee) {
     return <Navigate to="/admin/dashboard" replace />;
   }
+
+
+
+
 
   return (
     <>
