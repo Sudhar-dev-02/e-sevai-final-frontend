@@ -61,7 +61,7 @@ function App() {
   return (
     <AuthProvider>
       <ToastProvider>
-        <Router>
+        <Router basename="/e-sevai-final-frontend/">
           <div style={styles.app}>
             <Routes>
             {/* Public routes */}
