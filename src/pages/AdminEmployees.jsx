@@ -146,24 +146,25 @@ const AdminEmployees = () => {
   }
 
   return (
-    <div>
-      <div style={styles.header}>
+    <div className="container-fluid p-0">
+      <div className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4 gap-3">
         <div>
-          <h1 style={styles.title}>Employees</h1>
-          <p style={styles.subtitle}>Manage employee accounts</p>
+          <h1 style={styles.title} className="fs-3 fs-md-2">Employees</h1>
+          <p style={styles.subtitle} className="fs-6 text-muted">Manage employee accounts</p>
         </div>
         <button 
           style={styles.addBtn}
+          className="btn w-90 w-md-auto text-white"
           onClick={() => handleOpenModal()}
         >
           + Add Employee
         </button>
       </div>
 
-      <div style={styles.filtersCard}>
-        <form onSubmit={handleSearch} style={styles.filtersForm}>
-          <div style={styles.filtersRow}>
-            <div style={styles.filterGroup}>
+      <div style={styles.filtersCard} className="p-3 p-md-4">
+        <form onSubmit={handleSearch} className="d-flex flex-column gap-3">
+          <div className="row g-3">
+            <div className="col-12 col-md-6 d-flex flex-column gap-2">
               <label style={styles.label}>Search</label>
               <input
                 type="text"
@@ -171,16 +172,16 @@ const AdminEmployees = () => {
                 value={filters.search}
                 onChange={handleFilterChange}
                 placeholder="Name, email, or ID"
-                style={styles.input}
+                className="form-control"
               />
             </div>
-            <div style={styles.filterGroup}>
+            <div className="col-12 col-md-6 d-flex flex-column gap-2">
               <label style={styles.label}>Status</label>
               <select
                 name="status"
                 value={filters.status}
                 onChange={handleFilterChange}
-                style={styles.select}
+                className="form-select"
               >
                 <option value="">All</option>
                 <option value="active">Active</option>
@@ -188,13 +189,14 @@ const AdminEmployees = () => {
               </select>
             </div>
           </div>
-          <div style={styles.filtersActions}>
-            <button type="submit" style={styles.searchBtn}>
+          <div className="d-flex flex-column flex-sm-row gap-2 mt-2">
+            <button type="submit" style={styles.searchBtn} className="btn w-100 w-sm-auto text-white">
               Search
             </button>
             <button 
               type="button" 
               style={styles.resetBtn}
+              className="btn w-100 w-sm-auto text-white"
               onClick={() => setFilters({
                 page: 1,
                 limit: 10,
@@ -209,8 +211,8 @@ const AdminEmployees = () => {
       </div>
 
       <div style={styles.tableCard}>
-        <div style={styles.tableWrapper}>
-          <table style={styles.table}>
+        <div className="table-responsive">
+          <table className="table table-hover mb-0" style={styles.table}>
             <thead>
               <tr>
                 <th style={styles.th}>Employee ID</th>
@@ -249,15 +251,17 @@ const AdminEmployees = () => {
                     }
                   </td>
                   <td style={styles.td}>
-                    <div style={styles.actions}>
+                    <div style={styles.actions} className="d-flex gap-2">
                       <button
                         style={styles.editBtn}
+                        className="btn btn-sm text-white"
                         onClick={() => handleOpenModal(emp)}
                       >
                         Edit
                       </button>
                       <button
                         style={styles.deleteBtn}
+                        className="btn btn-sm text-white"
                         onClick={() => handleDelete(emp._id)}
                       >
                         Delete
@@ -275,21 +279,23 @@ const AdminEmployees = () => {
         )}
 
         {pagination.totalEmployees > 0 && (
-          <Pagination
-            currentPage={pagination.currentPage}
-            totalPages={pagination.totalPages}
-            totalItems={pagination.totalEmployees}
-            itemsPerPage={pagination.limit}
-            onPageChange={(page) => setFilters(prev => ({ ...prev, page }))}
-          />
+          <div className="p-3">
+            <Pagination
+              currentPage={pagination.currentPage}
+              totalPages={pagination.totalPages}
+              totalItems={pagination.totalEmployees}
+              itemsPerPage={pagination.limit}
+              onPageChange={(page) => setFilters(prev => ({ ...prev, page }))}
+            />
+          </div>
         )}
       </div>
 
       {showModal && (
-        <div style={styles.modalOverlay} onClick={handleCloseModal}>
+        <div style={styles.modalOverlay} className="p-3" onClick={handleCloseModal}>
           <div style={styles.modal} onClick={e => e.stopPropagation()}>
             <div style={styles.modalHeader}>
-              <h2 style={styles.modalTitle}>
+              <h2 style={styles.modalTitle} className="fs-5">
                 {editingEmployee ? 'Edit Employee' : 'Add New Employee'}
               </h2>
               <button style={styles.closeBtn} onClick={handleCloseModal}>×</button>
@@ -302,7 +308,7 @@ const AdminEmployees = () => {
                   name="name"
                   value={formData.name}
                   onChange={handleInputChange}
-                  style={styles.input}
+                  className="form-control"
                   placeholder="Enter name"
                   required
                 />
@@ -314,7 +320,7 @@ const AdminEmployees = () => {
                   name="email"
                   value={formData.email}
                   onChange={handleInputChange}
-                  style={styles.input}
+                  className="form-control"
                   placeholder="Enter email"
                   required={!editingEmployee}
                 />
@@ -328,7 +334,7 @@ const AdminEmployees = () => {
                   name="password"
                   value={formData.password || ''}
                   onChange={handleInputChange}
-                  style={styles.input}
+                  className="form-control"
                   placeholder={editingEmployee ? "Leave blank to keep unchanged" : "Enter password"}
                   required={!editingEmployee}
                 />
@@ -345,11 +351,11 @@ const AdminEmployees = () => {
                   Active
                 </label>
               </div>
-              <div style={styles.modalFooter}>
-                <button type="button" style={styles.cancelBtn} onClick={handleCloseModal}>
+              <div className="d-flex flex-column flex-sm-row gap-2 mt-3 justify-content-end">
+                <button type="button" style={styles.cancelBtn} className="btn w-100 w-sm-auto text-white" onClick={handleCloseModal}>
                   Cancel
                 </button>
-                <button type="submit" style={styles.submitBtn}>
+                <button type="submit" style={styles.submitBtn} className="btn w-100 w-sm-auto text-white">
                   {editingEmployee ? 'Update' : 'Create'}
                 </button>
               </div>

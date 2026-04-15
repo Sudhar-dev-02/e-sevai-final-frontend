@@ -46,80 +46,78 @@ const AdminDashboard = () => {
   }
 
   return (
-    <div>
-      <div style={styles.header}>
-        <h1 style={styles.title}>Admin Dashboard</h1>
-        <p style={styles.subtitle}>Overview of office management system</p>
+    <div className="container-fluid p-0">
+      <div className="mb-4">
+        <h1 style={styles.title} className="fs-3 fs-md-2">Admin Dashboard</h1>
+        <p style={styles.subtitle} className="fs-6 text-muted">Overview of office management system</p>
       </div>
 
       {stats && (
-        <div style={styles.statsGrid}>
-          <StatCard
-            title="Total Employees"
-            value={stats.employees.total}
-            icon="👥"
-            color="#3498db"
-          />
-          <StatCard
-            title="Today's Works"
-            value={stats.works.today}
-            icon="📋"
-            color="#2ecc71"
-          />
-          <StatCard
-            title="Today's Revenue"
-            value={`₹${stats.revenue.today.toLocaleString()}`}
-            icon="💰"
-            color="#f39c12"
-          />
-          <StatCard
-            title="Total Revenue"
-            value={`₹${stats.revenue.total.toLocaleString()}`}
-            icon="📊"
-            color="#9b59b6"
-          />
+        <div className="row g-3 mb-4">
+          <div className="col-12 col-sm-6 col-md-6 col-lg-3">
+            <StatCard title="Total Employees" value={stats.employees.total} icon="👥" color="#3498db" />
+          </div>
+          <div className="col-12 col-sm-6 col-md-6 col-lg-3">
+            <StatCard title="Today's Works" value={stats.works.today} icon="📋" color="#2ecc71" />
+          </div>
+          <div className="col-12 col-sm-6 col-md-6 col-lg-3">
+            <StatCard title="Today's Revenue" value={`₹${stats.revenue.today.toLocaleString()}`} icon="💰" color="#f39c12" />
+          </div>
+          <div className="col-12 col-sm-6 col-md-6 col-lg-3">
+            <StatCard title="Total Revenue" value={`₹${stats.revenue.total.toLocaleString()}`} icon="📊" color="#9b59b6" />
+          </div>
         </div>
       )}
 
-      <div style={styles.revenueSection}>
-        <h2 style={styles.sectionTitle}>Revenue Overview</h2>
-        <div style={styles.revenueGrid}>
-          <div style={styles.revenueCard}>
-            <h3 style={styles.revenueTitle}>This Month</h3>
-            <div style={styles.revenueValue}>
-              ₹{stats?.revenue.month.toLocaleString() || '0'}
-            </div>
-            <div style={styles.revenueWorks}>
-              {stats?.works.month || 0} works completed
+      <div className="mb-4">
+        <h2 style={styles.sectionTitle} className="fs-4 fs-md-3 mb-3">Revenue Overview</h2>
+        <div className="row g-3">
+          <div className="col-12 col-md-6">
+            <div style={styles.revenueCard} className="p-3 p-md-4 h-100">
+              <h3 style={styles.revenueTitle}>This Month</h3>
+              <div style={styles.revenueValue}>
+                ₹{stats?.revenue.month.toLocaleString() || '0'}
+              </div>
+              <div style={styles.revenueWorks}>
+                {stats?.works.month || 0} works completed
+              </div>
             </div>
           </div>
-          <div style={styles.revenueCard}>
-            <h3 style={styles.revenueTitle}>Pending Payments</h3>
-            <div style={{ ...styles.revenueValue, color: '#e74c3c' }}>
-              ₹{stats?.revenue.pending.toLocaleString() || '0'}
-            </div>
-            <div style={styles.revenueWorks}>
-              Follow up required
+          <div className="col-12 col-md-6">
+            <div style={styles.revenueCard} className="p-3 p-md-4 h-100">
+              <h3 style={styles.revenueTitle}>Pending Payments</h3>
+              <div style={{ ...styles.revenueValue, color: '#e74c3c' }}>
+                ₹{stats?.revenue.pending.toLocaleString() || '0'}
+              </div>
+              <div style={styles.revenueWorks}>
+                Follow up required
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      <div style={styles.quickActions}>
-        <h2 style={styles.sectionTitle}>Quick Actions</h2>
-        <div style={styles.actionsGrid}>
-          <a href="/admin/works" style={styles.actionBtn}>
-            <span style={styles.actionIcon}>📋</span>
-            <span>Manage Works</span>
-          </a>
-          <a href="/admin/employees" style={styles.actionBtn}>
-            <span style={styles.actionIcon}>👥</span>
-            <span>Manage Employees</span>
-          </a>
-          <a href="/admin/reports" style={styles.actionBtn}>
-            <span style={styles.actionIcon}>📊</span>
-            <span>View Reports</span>
-          </a>
+      <div style={styles.quickActions} className="p-3 p-md-4">
+        <h2 style={styles.sectionTitle} className="fs-4 fs-md-3 mb-3">Quick Actions</h2>
+        <div className="row g-3">
+          <div className="col-12 col-md-4">
+            <a href="/e-sevai-final-frontend/admin/works" style={styles.actionBtn} className="w-100 d-flex align-items-center justify-content-center justify-content-md-start">
+              <span style={styles.actionIcon}>📋</span>
+              <span>Manage Works</span>
+            </a>
+          </div>
+          <div className="col-12 col-md-4">
+            <a href="/e-sevai-final-frontend/admin/employees" style={styles.actionBtn} className="w-100 d-flex align-items-center justify-content-center justify-content-md-start">
+              <span style={styles.actionIcon}>👥</span>
+              <span>Manage Employees</span>
+            </a>
+          </div>
+          <div className="col-12 col-md-4">
+            <a href="/e-sevai-final-frontend/admin/reports" style={styles.actionBtn} className="w-100 d-flex align-items-center justify-content-center justify-content-md-start">
+              <span style={styles.actionIcon}>📊</span>
+              <span>View Reports</span>
+            </a>
+          </div>
         </div>
       </div>
     </div>
@@ -127,25 +125,13 @@ const AdminDashboard = () => {
 };
 
 const styles = {
-  header: {
-    marginBottom: '30px'
-  },
   title: {
     margin: '0 0 8px 0',
-    fontSize: '32px',
     fontWeight: 'bold',
     color: '#2c3e50'
   },
   subtitle: {
-    margin: 0,
-    color: '#666',
-    fontSize: '16px'
-  },
-  statsGrid: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-    gap: '20px',
-    marginBottom: '40px'
+    margin: 0
   },
   statCard: {
     display: 'flex',
@@ -154,7 +140,8 @@ const styles = {
     borderRadius: '12px',
     border: '2px solid',
     backgroundColor: 'white',
-    boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
+    boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+    height: '100%'
   },
   statIcon: {
     width: '60px',
@@ -164,7 +151,8 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center',
     fontSize: '24px',
-    marginRight: '20px'
+    marginRight: '20px',
+    flexShrink: 0
   },
   statContent: {
     flex: 1
@@ -182,22 +170,11 @@ const styles = {
     textTransform: 'uppercase',
     letterSpacing: '0.5px'
   },
-  revenueSection: {
-    marginBottom: '40px'
-  },
   sectionTitle: {
-    margin: '0 0 20px 0',
-    fontSize: '24px',
     fontWeight: 'bold',
     color: '#2c3e50'
   },
-  revenueGrid: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-    gap: '20px'
-  },
   revenueCard: {
-    padding: '24px',
     borderRadius: '12px',
     backgroundColor: 'white',
     boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
@@ -222,19 +199,11 @@ const styles = {
   },
   quickActions: {
     backgroundColor: 'white',
-    padding: '24px',
     borderRadius: '12px',
     boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
     border: '1px solid #e9ecef'
   },
-  actionsGrid: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-    gap: '16px'
-  },
   actionBtn: {
-    display: 'flex',
-    alignItems: 'center',
     gap: '12px',
     padding: '16px',
     backgroundColor: '#f8f9fa',

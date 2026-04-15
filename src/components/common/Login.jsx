@@ -42,25 +42,32 @@ const Login = () => {
   };
 
   return (
-    <div style={styles.container}>
-      <div style={styles.card}>
-        <h2 style={styles.title}>e-Sevai Login</h2>
+    <div style={{...styles.container, overflowX: 'hidden'}}>
+      <div style={styles.card} className="m-3 p-3 p-md-4">
+        <h2 style={styles.title} className="fs-4 fs-md-3">e-Sevai Login</h2>
 
         {/* ================= LOGIN FORM ================= */}
         <form onSubmit={handleSubmit} style={styles.form}>
-          <div>
-            <label>Login Type</label><br />
-            <input
-              type="radio"
-              checked={!isEmployee}
-              onChange={() => setIsEmployee(false)}
-            /> Admin
-            <input
-              type="radio"
-              checked={isEmployee}
-              onChange={() => setIsEmployee(true)}
-              style={{ marginLeft: "10px" }}
-            /> Employee
+          <div className="mb-3">
+            <label className="fw-bold mb-2">Login Type</label><br />
+            <div className="d-flex justify-content-center gap-3">
+              <label className="d-flex align-items-center">
+                <input
+                  type="radio"
+                  checked={!isEmployee}
+                  onChange={() => setIsEmployee(false)}
+                  className="me-2"
+                /> Admin
+              </label>
+              <label className="d-flex align-items-center">
+                <input
+                  type="radio"
+                  checked={isEmployee}
+                  onChange={() => setIsEmployee(true)}
+                  className="me-2"
+                /> Employee
+              </label>
+            </div>
           </div>
 
           <input
@@ -70,7 +77,7 @@ const Login = () => {
             value={formData.email}
             onChange={handleInputChange}
             required
-            style={styles.input}
+            className="form-control w-100 mb-3"
           />
 
           <input
@@ -80,12 +87,12 @@ const Login = () => {
             value={formData.password}
             onChange={handleInputChange}
             required
-            style={styles.input}
+            className="form-control w-100 mb-3"
           />
 
           {error && <p style={styles.error}>{error}</p>}
 
-          <button disabled={loading} style={styles.button}>
+          <button disabled={loading} style={styles.button} className="btn w-100">
             {loading ? "Loading..." : "Login"}
           </button>
         </form>
@@ -96,17 +103,17 @@ const Login = () => {
 
 const styles = {
   container: {
-    height: "100vh",
+    minHeight: "100vh",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
     background: "#f5f5f5"
   },
   card: {
-    padding: 30,
     background: "#fff",
     borderRadius: 10,
-    width: 320,
+    width: "100%",
+    maxWidth: "400px",
     textAlign: "center",
     boxShadow: "0 4px 10px rgba(0,0,0,0.1)"
   },
@@ -115,21 +122,7 @@ const styles = {
   },
   form: {
     display: "flex",
-    flexDirection: "column",
-    gap: 12
-  },
-  input: {
-    padding: 10,
-    border: "1px solid #ccc",
-    borderRadius: 5
-  },
-  otp: {
-    padding: 12,
-    fontSize: 20,
-    textAlign: "center",
-    letterSpacing: 5,
-    border: "2px solid #007bff",
-    borderRadius: 5
+    flexDirection: "column"
   },
   button: {
     padding: 10,
@@ -137,18 +130,13 @@ const styles = {
     color: "#fff",
     border: "none",
     borderRadius: 5,
-    cursor: "pointer"
-  },
-  back: {
-    marginTop: 10,
-    padding: 8,
-    border: "none",
-    background: "#eee",
-    cursor: "pointer"
+    cursor: "pointer",
+    transition: "background-color 0.2s"
   },
   error: {
     color: "red",
-    fontSize: "14px"
+    fontSize: "14px",
+    marginBottom: "10px"
   }
 };
 

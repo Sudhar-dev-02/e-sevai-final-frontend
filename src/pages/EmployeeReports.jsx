@@ -146,18 +146,19 @@ const EmployeeReports = () => {
   };
 
   return (
-    <div>
-      <div style={styles.header}>
-        <h1 style={styles.title}>My Reports</h1>
-        <p style={styles.subtitle}>View your work reports and earnings</p>
+    <div className="container-fluid p-0">
+      <div className="mb-4">
+        <h1 style={styles.title} className="fs-3 fs-md-2">My Reports</h1>
+        <p style={styles.subtitle} className="fs-6 text-muted">View your work reports and earnings</p>
       </div>
 
-      <div style={styles.tabs}>
+      <div className="d-flex flex-wrap gap-2 mb-4">
         <button
           style={{
             ...styles.tab,
             ...(activeTab === 'daily' ? styles.activeTab : {})
           }}
+          className="flex-grow-1 flex-sm-grow-0"
           onClick={() => setActiveTab('daily')}
         >
           Date-wise Report
@@ -167,6 +168,7 @@ const EmployeeReports = () => {
             ...styles.tab,
             ...(activeTab === 'monthly' ? styles.activeTab : {})
           }}
+          className="flex-grow-1 flex-sm-grow-0"
           onClick={() => setActiveTab('monthly')}
         >
           Monthly Report
@@ -174,49 +176,49 @@ const EmployeeReports = () => {
       </div>
 
       <div style={styles.reportCard}>
-        <div style={styles.filtersCard}>
-          <form onSubmit={handleGenerateReport} style={styles.filtersForm}>
-            <div style={styles.filtersRow}>
+        <div style={styles.filtersCard} className="p-3 p-md-4">
+          <form onSubmit={handleGenerateReport} className="d-flex flex-column gap-3">
+            <div className="row g-3">
               {activeTab === 'daily' ? (
                 <>
-                  <div style={styles.filterGroup}>
+                  <div className="col-12 col-md-6 d-flex flex-column gap-2">
                     <label style={styles.label}>From Date</label>
                     <input
                       type="date"
                       name="startDate"
                       value={filters.startDate}
                       onChange={handleFilterChange}
-                      style={styles.input}
+                      className="form-control"
                       required
                     />
                   </div>
-                  <div style={styles.filterGroup}>
+                  <div className="col-12 col-md-6 d-flex flex-column gap-2">
                     <label style={styles.label}>To Date</label>
                     <input
                       type="date"
                       name="endDate"
                       value={filters.endDate}
                       onChange={handleFilterChange}
-                      style={styles.input}
+                      className="form-control"
                       required
                     />
                   </div>
                 </>
               ) : (
-                <div style={styles.filterGroup}>
+                <div className="col-12 col-md-6 d-flex flex-column gap-2">
                   <label style={styles.label}>Select Month</label>
                   <input
                     type="month"
                     name="month"
                     value={filters.month}
                     onChange={handleFilterChange}
-                    style={styles.input}
+                    className="form-control"
                     required
                   />
                 </div>
               )}
             </div>
-            <button type="submit" style={styles.generateBtn}>
+            <button type="submit" style={styles.generateBtn} className="btn w-100 w-sm-auto text-white mt-2">
               Generate Report
             </button>
           </form>
@@ -226,47 +228,55 @@ const EmployeeReports = () => {
           <Loading text="Generating report..." />
         ) : works.length > 0 ? (
           <>
-            <div style={styles.summaryCard}>
-              <h3 style={styles.summaryTitle}>Summary</h3>
-              <div style={styles.summaryGrid}>
-                <div style={styles.summaryItem}>
-                  <span style={styles.summaryLabel}>Total Works</span>
-                  <span style={styles.summaryValue}>{stats?.totalWorks || 0}</span>
+            <div style={styles.summaryCard} className="p-3 p-md-4">
+              <h3 style={styles.summaryTitle} className="fs-5 mb-3">Summary</h3>
+              <div className="row g-3">
+                <div className="col-12 col-sm-6 col-lg-3">
+                  <div style={styles.summaryItem} className="h-100">
+                    <span style={styles.summaryLabel}>Total Works</span>
+                    <span style={styles.summaryValue}>{stats?.totalWorks || 0}</span>
+                  </div>
                 </div>
-                <div style={styles.summaryItem}>
-                  <span style={styles.summaryLabel}>Total Earnings</span>
-                  <span style={styles.summaryValue}>
-                    {formatCurrency(stats?.totalEarnings || 0)}
-                  </span>
+                <div className="col-12 col-sm-6 col-lg-3">
+                  <div style={styles.summaryItem} className="h-100">
+                    <span style={styles.summaryLabel}>Total Earnings</span>
+                    <span style={styles.summaryValue}>
+                      {formatCurrency(stats?.totalEarnings || 0)}
+                    </span>
+                  </div>
                 </div>
-                <div style={styles.summaryItem}>
-                  <span style={styles.summaryLabel}>Pending Amount</span>
-                  <span style={{ ...styles.summaryValue, color: '#e74c3c' }}>
-                    {formatCurrency(stats?.pendingAmount || 0)}
-                  </span>
+                <div className="col-12 col-sm-6 col-lg-3">
+                  <div style={styles.summaryItem} className="h-100">
+                    <span style={styles.summaryLabel}>Pending Amount</span>
+                    <span style={{ ...styles.summaryValue, color: '#e74c3c' }}>
+                      {formatCurrency(stats?.pendingAmount || 0)}
+                    </span>
+                  </div>
                 </div>
-                <div style={styles.summaryItem}>
-                  <span style={styles.summaryLabel}>Collection Rate</span>
-                  <span style={styles.summaryValue}>
-                    {stats?.totalEarnings > 0
-                      ? ((stats.totalEarnings / (stats.totalEarnings + stats.pendingAmount)) * 100).toFixed(1) + '%'
-                      : '0%'
-                    }
-                  </span>
+                <div className="col-12 col-sm-6 col-lg-3">
+                  <div style={styles.summaryItem} className="h-100">
+                    <span style={styles.summaryLabel}>Collection Rate</span>
+                    <span style={styles.summaryValue}>
+                      {stats?.totalEarnings > 0
+                        ? ((stats.totalEarnings / (stats.totalEarnings + stats.pendingAmount)) * 100).toFixed(1) + '%'
+                        : '0%'
+                      }
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <div style={styles.worksContainer}>
-              <h3 style={styles.worksTitle}>Detailed Work Entries</h3>
+            <div className="p-3 p-md-4">
+              <h3 style={styles.worksTitle} className="fs-5 mb-3">Detailed Work Entries</h3>
               {works.map((dayData) => (
                 <div key={dayData.date} style={styles.daySection}>
                   <div style={styles.dayHeader}>
                     <h4 style={styles.dayTitle}>{formatDate(dayData.date)}</h4>
                     <span style={styles.dayCount}>{dayData.works.length} works</span>
                   </div>
-                  <div style={styles.tableWrapper}>
-                    <table style={styles.table}>
+                  <div className="table-responsive">
+                    <table className="table table-hover mb-0" style={styles.table}>
                       <thead>
                         <tr>
                           <th style={styles.th}>Customer</th>
@@ -304,24 +314,13 @@ const EmployeeReports = () => {
 };
 
 const styles = {
-  header: {
-    marginBottom: '30px'
-  },
   title: {
     margin: '0 0 8px 0',
-    fontSize: '32px',
     fontWeight: 'bold',
     color: '#2c3e50'
   },
   subtitle: {
-    margin: 0,
-    color: '#666',
-    fontSize: '16px'
-  },
-  tabs: {
-    display: 'flex',
-    gap: '10px',
-    marginBottom: '30px'
+    margin: 0
   },
   tab: {
     padding: '12px 24px',
@@ -346,34 +345,12 @@ const styles = {
   },
   filtersCard: {
     backgroundColor: '#f8f9fa',
-    padding: '20px',
     borderBottom: '1px solid #e9ecef'
-  },
-  filtersForm: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '16px'
-  },
-  filtersRow: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-    gap: '16px'
-  },
-  filterGroup: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '8px'
   },
   label: {
     fontSize: '14px',
     fontWeight: '500',
     color: '#333'
-  },
-  input: {
-    padding: '10px 12px',
-    border: '1px solid #ddd',
-    borderRadius: '6px',
-    fontSize: '14px'
   },
   generateBtn: {
     padding: '10px 24px',
@@ -386,20 +363,12 @@ const styles = {
     cursor: 'pointer'
   },
   summaryCard: {
-    padding: '24px',
     backgroundColor: '#f8f9fa',
     borderBottom: '1px solid #e9ecef'
   },
   summaryTitle: {
-    margin: '0 0 16px 0',
-    fontSize: '18px',
     fontWeight: 'bold',
     color: '#2c3e50'
-  },
-  summaryGrid: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
-    gap: '16px'
   },
   summaryItem: {
     backgroundColor: 'white',
@@ -420,12 +389,7 @@ const styles = {
     fontWeight: 'bold',
     color: '#2c3e50'
   },
-  worksContainer: {
-    padding: '24px'
-  },
   worksTitle: {
-    margin: '0 0 20px 0',
-    fontSize: '18px',
     fontWeight: 'bold',
     color: '#2c3e50'
   },
@@ -454,9 +418,6 @@ const styles = {
     backgroundColor: 'white',
     padding: '4px 12px',
     borderRadius: '20px'
-  },
-  tableWrapper: {
-    overflowX: 'auto'
   },
   table: {
     width: '100%',

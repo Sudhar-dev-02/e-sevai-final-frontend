@@ -155,18 +155,19 @@ const AdminWorks = () => {
   }
 
   return (
-    <div>
-      <div style={styles.header}>
-        <h1 style={styles.title}>Manage Work</h1>
-        <p style={styles.subtitle}>Manage employee entries and Admin Work Item presets</p>
+    <div className="container-fluid p-0">
+      <div className="mb-4">
+        <h1 style={styles.title} className="fs-3 fs-md-2">Manage Work</h1>
+        <p style={styles.subtitle} className="fs-6 text-muted">Manage employee entries and Admin Work Item presets</p>
       </div>
 
-      <div style={styles.tabs}>
+      <div className="d-flex flex-wrap gap-2 mb-4">
         <button
           style={{
             ...styles.tab,
             ...(activeTab === 'entries' ? styles.activeTab : {})
           }}
+          className="flex-grow-1 flex-sm-grow-0"
           onClick={() => setActiveTab('entries')}
         >
           Employee Work Entries
@@ -176,6 +177,7 @@ const AdminWorks = () => {
             ...styles.tab,
             ...(activeTab === 'items' ? styles.activeTab : {})
           }}
+          className="flex-grow-1 flex-sm-grow-0"
           onClick={() => setActiveTab('items')}
         >
           Admin Work Pricing Presets
@@ -184,10 +186,10 @@ const AdminWorks = () => {
 
       {activeTab === 'entries' && (
         <>
-          <div style={styles.filtersCard}>
-        <form onSubmit={handleSearch} style={styles.filtersForm}>
-          <div style={styles.filtersRow}>
-            <div style={styles.filterGroup}>
+          <div style={styles.filtersCard} className="p-3 p-md-4">
+        <form onSubmit={handleSearch} className="d-flex flex-column gap-3">
+          <div className="row g-3">
+            <div className="col-12 col-md-4 d-flex flex-column gap-2">
               <label style={styles.label}>Search</label>
               <input
                 type="text"
@@ -195,38 +197,38 @@ const AdminWorks = () => {
                 value={filters.search}
                 onChange={handleFilterChange}
                 placeholder="Customer name or work title"
-                style={styles.input}
+                className="form-control"
               />
             </div>
-            <div style={styles.filterGroup}>
+            <div className="col-12 col-sm-6 col-md-4 d-flex flex-column gap-2">
               <label style={styles.label}>From Date</label>
               <input
                 type="date"
                 name="startDate"
                 value={filters.startDate}
                 onChange={handleFilterChange}
-                style={styles.input}
+                className="form-control"
               />
             </div>
-            <div style={styles.filterGroup}>
+            <div className="col-12 col-sm-6 col-md-4 d-flex flex-column gap-2">
               <label style={styles.label}>To Date</label>
               <input
                 type="date"
                 name="endDate"
                 value={filters.endDate}
                 onChange={handleFilterChange}
-                style={styles.input}
+                className="form-control"
               />
             </div>
           </div>
-          <div style={styles.filtersRow}>
-            <div style={styles.filterGroup}>
+          <div className="row g-3">
+            <div className="col-12 col-md-4 d-flex flex-column gap-2">
               <label style={styles.label}>Employee</label>
               <select
                 name="employeeId"
                 value={filters.employeeId}
                 onChange={handleFilterChange}
-                style={styles.select}
+                className="form-select"
               >
                 <option value="">All Employees</option>
                 {employees.map(emp => (
@@ -236,26 +238,26 @@ const AdminWorks = () => {
                 ))}
               </select>
             </div>
-            <div style={styles.filterGroup}>
+            <div className="col-12 col-sm-6 col-md-4 d-flex flex-column gap-2">
               <label style={styles.label}>Payment Status</label>
               <select
                 name="paymentStatus"
                 value={filters.paymentStatus}
                 onChange={handleFilterChange}
-                style={styles.select}
+                className="form-select"
               >
                 <option value="">All</option>
                 <option value="Paid">Paid</option>
                 <option value="Pending">Pending</option>
               </select>
             </div>
-            <div style={styles.filterGroup}>
+            <div className="col-12 col-sm-6 col-md-4 d-flex flex-column gap-2">
               <label style={styles.label}>Work Status</label>
               <select
                 name="workStatus"
                 value={filters.workStatus}
                 onChange={handleFilterChange}
-                style={styles.select}
+                className="form-select"
               >
                 <option value="">All</option>
                 <option value="Completed">Completed</option>
@@ -263,13 +265,14 @@ const AdminWorks = () => {
               </select>
             </div>
           </div>
-          <div style={styles.filtersActions}>
-            <button type="submit" style={styles.searchBtn}>
+          <div className="d-flex flex-column flex-sm-row gap-2 mt-2">
+            <button type="submit" style={styles.searchBtn} className="btn w-100 w-sm-auto text-white">
               Apply Filters
             </button>
             <button 
               type="button" 
               style={styles.resetBtn}
+              className="btn w-100 w-sm-auto text-white"
               onClick={() => setFilters({
                 page: 1,
                 limit: 10,
@@ -288,8 +291,8 @@ const AdminWorks = () => {
       </div>
 
       <div style={styles.tableCard}>
-        <div style={styles.tableWrapper}>
-          <table style={styles.table}>
+        <div className="table-responsive">
+          <table className="table table-hover mb-0" style={styles.table}>
             <thead>
               <tr>
                 <th style={styles.th}>Employee</th>
@@ -331,13 +334,15 @@ const AdminWorks = () => {
         )}
 
         {pagination.totalWorks > 0 && (
-          <Pagination
-            currentPage={pagination.currentPage}
-            totalPages={pagination.totalPages}
-            totalItems={pagination.totalWorks}
-            itemsPerPage={pagination.limit}
-            onPageChange={(page) => setFilters(prev => ({ ...prev, page }))}
-          />
+          <div className="p-3">
+            <Pagination
+              currentPage={pagination.currentPage}
+              totalPages={pagination.totalPages}
+              totalItems={pagination.totalWorks}
+              itemsPerPage={pagination.limit}
+              onPageChange={(page) => setFilters(prev => ({ ...prev, page }))}
+            />
+          </div>
         )}
       </div>
       </>
@@ -345,21 +350,21 @@ const AdminWorks = () => {
 
       {activeTab === 'items' && (
         <div style={styles.tableCard}>
-          <div style={{ padding: '20px', borderBottom: '1px solid #eee' }}>
-            <h3 style={{ margin: '0 0 15px 0' }}>Add New Work Item Preset</h3>
-            <form onSubmit={handleCreateWorkItem} style={{ display: 'flex', gap: '15px', alignItems: 'flex-end' }}>
-              <div style={styles.filterGroup}>
+          <div className="p-3 p-md-4 border-bottom">
+            <h3 className="fs-5 mb-3">Add New Work Item Preset</h3>
+            <form onSubmit={handleCreateWorkItem} className="row g-3 align-items-end">
+              <div className="col-12 col-md-5 d-flex flex-column gap-2">
                 <label style={styles.label}>Work Name</label>
                 <input
                   type="text"
                   required
                   value={newItem.name}
                   onChange={(e) => setNewItem({ ...newItem, name: e.target.value })}
-                  style={styles.input}
                   placeholder="E.g. Logo Design"
+                  className="form-control"
                 />
               </div>
-              <div style={styles.filterGroup}>
+              <div className="col-12 col-md-4 d-flex flex-column gap-2">
                 <label style={styles.label}>Fixed Price (₹)</label>
                 <input
                   type="number"
@@ -367,16 +372,18 @@ const AdminWorks = () => {
                   min="0"
                   value={newItem.price}
                   onChange={(e) => setNewItem({ ...newItem, price: e.target.value })}
-                  style={styles.input}
                   placeholder="0.00"
+                  className="form-control"
                 />
               </div>
-              <button type="submit" style={styles.addBtn}>Add Preset</button>
+              <div className="col-12 col-md-3">
+                <button type="submit" style={styles.addBtn} className="btn w-100 text-white">Add Preset</button>
+              </div>
             </form>
           </div>
 
-          <div style={styles.tableWrapper}>
-            <table style={styles.table}>
+          <div className="table-responsive">
+            <table className="table table-hover mb-0" style={styles.table}>
               <thead>
                 <tr>
                   <th style={styles.th}>Work Name</th>
@@ -390,7 +397,7 @@ const AdminWorks = () => {
                     <td style={styles.td}><strong>{item.name}</strong></td>
                     <td style={styles.td}>₹{item.price.toLocaleString()}</td>
                     <td style={styles.td}>
-                      <button style={styles.deleteBtn} onClick={() => handleDeleteWorkItem(item._id)}>Delete</button>
+                      <button style={styles.deleteBtn} className="btn btn-sm" onClick={() => handleDeleteWorkItem(item._id)}>Delete</button>
                     </td>
                   </tr>
                 ))}

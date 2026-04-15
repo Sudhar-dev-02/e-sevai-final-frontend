@@ -142,18 +142,19 @@ const AdminReports = () => {
   };
 
   return (
-    <div>
-      <div style={styles.header}>
-        <h1 style={styles.title}>Reports</h1>
-        <p style={styles.subtitle}>Analytics and performance reports</p>
+    <div className="container-fluid p-0">
+      <div className="mb-4">
+        <h1 style={styles.title} className="fs-3 fs-md-2">Reports</h1>
+        <p style={styles.subtitle} className="fs-6 text-muted">Analytics and performance reports</p>
       </div>
 
-      <div style={styles.tabs}>
+      <div className="d-flex flex-wrap gap-2 mb-4">
         <button
           style={{
             ...styles.tab,
             ...(activeTab === 'revenue' ? styles.activeTab : {})
           }}
+          className="flex-grow-1 flex-sm-grow-0"
           onClick={() => setActiveTab('revenue')}
         >
           Revenue Report
@@ -163,6 +164,7 @@ const AdminReports = () => {
             ...styles.tab,
             ...(activeTab === 'performance' ? styles.activeTab : {})
           }}
+          className="flex-grow-1 flex-sm-grow-0"
           onClick={() => setActiveTab('performance')}
         >
           Employee Performance
@@ -172,37 +174,37 @@ const AdminReports = () => {
       {activeTab === 'revenue' && (
         <div style={styles.reportCard}>
           <div style={styles.filtersCard}>
-            <form onSubmit={handleRevenueReport} style={styles.filtersForm}>
-              <div style={styles.filtersRow}>
-                <div style={styles.filterGroup}>
+            <form onSubmit={handleRevenueReport} className="d-flex flex-column">
+              <div className="row g-3">
+                <div className="col-12 col-sm-6 col-md-4 d-flex flex-column gap-2">
                   <label style={styles.label}>From Date</label>
                   <input
                     type="date"
                     name="startDate"
                     value={filters.startDate}
                     onChange={handleFilterChange}
-                    style={styles.input}
+                    className="form-control"
                     required
                   />
                 </div>
-                <div style={styles.filterGroup}>
+                <div className="col-12 col-sm-6 col-md-4 d-flex flex-column gap-2">
                   <label style={styles.label}>To Date</label>
                   <input
                     type="date"
                     name="endDate"
                     value={filters.endDate}
                     onChange={handleFilterChange}
-                    style={styles.input}
+                    className="form-control"
                     required
                   />
                 </div>
-                <div style={styles.filterGroup}>
+                <div className="col-12 col-md-4 d-flex flex-column gap-2">
                   <label style={styles.label}>Group By</label>
                   <select
                     name="groupBy"
                     value={filters.groupBy}
                     onChange={handleFilterChange}
-                    style={styles.select}
+                    className="form-select"
                   >
                     <option value="day">Day</option>
                     <option value="month">Month</option>
@@ -210,7 +212,7 @@ const AdminReports = () => {
                   </select>
                 </div>
               </div>
-              <button type="submit" style={styles.generateBtn}>
+              <button type="submit" style={styles.generateBtn} className="btn w-100 w-md-auto text-white mt-3">
                 Generate Report
               </button>
             </form>
@@ -220,20 +222,20 @@ const AdminReports = () => {
             <Loading text="Generating revenue report..." />
           ) : revenueData.length > 0 ? (
             <>
-              <div style={styles.chartContainer}>
-                <div style={styles.chartHeader}>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <div style={styles.chartContainer} className="p-3 p-md-4">
+                <div className="d-flex flex-column flex-lg-row justify-content-between align-items-start mb-4 gap-3">
+                  <div className="d-flex flex-column gap-2">
                     <h3 style={styles.chartTitle}>Revenue Overview</h3>
-                    <div style={{ display: 'flex', gap: '10px' }}>
-                      <button onClick={handleDownloadExcel} style={styles.downloadBtn}>
+                    <div className="d-flex flex-wrap gap-2">
+                      <button onClick={handleDownloadExcel} style={styles.downloadBtn} className="btn">
                         Download Excel (.xlsx)
                       </button>
-                      <button onClick={handleDownloadPDF} style={{ ...styles.downloadBtn, backgroundColor: '#e74c3c' }}>
+                      <button onClick={handleDownloadPDF} style={{ ...styles.downloadBtn, backgroundColor: '#e74c3c' }} className="btn">
                         Download PDF (.pdf)
                       </button>
                     </div>
                   </div>
-                  <div style={styles.legend}>
+                  <div className="d-flex flex-wrap gap-3">
                     <span style={styles.legendItem}>
                       <span style={{ ...styles.legendColor, backgroundColor: '#3498db' }}></span>
                       Total Revenue
@@ -273,49 +275,59 @@ const AdminReports = () => {
                 </div>
               </div>
 
-              <div style={styles.summaryCard}>
-                <h3 style={styles.summaryTitle}>Summary</h3>
-                <div style={styles.summaryGrid}>
-                  <div style={styles.summaryItem}>
-                    <span style={styles.summaryLabel}>Expected Revenue</span>
-                    <span style={styles.summaryValue}>
-                      {formatCurrency(revenueData.reduce((sum, item) => sum + item.totalRevenue, 0))}
-                    </span>
+              <div style={styles.summaryCard} className="p-3 p-md-4">
+                <h3 style={styles.summaryTitle} className="fs-5 mb-3">Summary</h3>
+                <div className="row g-3">
+                  <div className="col-12 col-sm-6 col-md-4 col-lg">
+                    <div style={styles.summaryItem} className="h-100">
+                      <span style={styles.summaryLabel} className="d-block mb-1">Expected Revenue</span>
+                      <span style={styles.summaryValue}>
+                        {formatCurrency(revenueData.reduce((sum, item) => sum + item.totalRevenue, 0))}
+                      </span>
+                    </div>
                   </div>
-                  <div style={styles.summaryItem}>
-                    <span style={styles.summaryLabel}>Actual Revenue</span>
-                    <span style={{
-                      ...styles.summaryValue,
-                      color: revenueData.reduce((sum, item) => sum + item.totalRevenue, 0) !== revenueData.reduce((sum, item) => sum + item.enteredTotalRevenue, 0) ? '#e67e22' : '#2c3e50'
-                    }}>
-                      {formatCurrency(revenueData.reduce((sum, item) => sum + item.enteredTotalRevenue, 0))}
-                    </span>
+                  <div className="col-12 col-sm-6 col-md-4 col-lg">
+                    <div style={styles.summaryItem} className="h-100">
+                      <span style={styles.summaryLabel} className="d-block mb-1">Actual Revenue</span>
+                      <span style={{
+                        ...styles.summaryValue,
+                        color: revenueData.reduce((sum, item) => sum + item.totalRevenue, 0) !== revenueData.reduce((sum, item) => sum + item.enteredTotalRevenue, 0) ? '#e67e22' : '#2c3e50'
+                      }}>
+                        {formatCurrency(revenueData.reduce((sum, item) => sum + item.enteredTotalRevenue, 0))}
+                      </span>
+                    </div>
                   </div>
-                  <div style={styles.summaryItem}>
-                    <span style={styles.summaryLabel}>Pending Expected</span>
-                    <span style={{ ...styles.summaryValue, color: '#e74c3c' }}>
-                      {formatCurrency(revenueData.reduce((sum, item) => sum + item.pendingRevenue, 0))}
-                    </span>
+                  <div className="col-12 col-sm-6 col-md-4 col-lg">
+                    <div style={styles.summaryItem} className="h-100">
+                      <span style={styles.summaryLabel} className="d-block mb-1">Pending Expected</span>
+                      <span style={{ ...styles.summaryValue, color: '#e74c3c' }}>
+                        {formatCurrency(revenueData.reduce((sum, item) => sum + item.pendingRevenue, 0))}
+                      </span>
+                    </div>
                   </div>
-                  <div style={styles.summaryItem}>
-                    <span style={styles.summaryLabel}>Total Works</span>
-                    <span style={styles.summaryValue}>
-                      {revenueData.reduce((sum, item) => sum + item.totalWorks, 0)}
-                    </span>
+                  <div className="col-12 col-sm-6 col-md-6 col-lg">
+                    <div style={styles.summaryItem} className="h-100">
+                      <span style={styles.summaryLabel} className="d-block mb-1">Total Works</span>
+                      <span style={styles.summaryValue}>
+                        {revenueData.reduce((sum, item) => sum + item.totalWorks, 0)}
+                      </span>
+                    </div>
                   </div>
-                  <div style={styles.summaryItem}>
-                    <span style={styles.summaryLabel}>Paid Works</span>
-                    <span style={styles.summaryValue}>
-                      {revenueData.reduce((sum, item) => sum + item.paidWorks, 0)}
-                    </span>
+                  <div className="col-12 col-sm-12 col-md-6 col-lg">
+                    <div style={styles.summaryItem} className="h-100">
+                      <span style={styles.summaryLabel} className="d-block mb-1">Paid Works</span>
+                      <span style={styles.summaryValue}>
+                        {revenueData.reduce((sum, item) => sum + item.paidWorks, 0)}
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
 
-              <div style={styles.tableCard}>
-                <h3 style={styles.tableTitle}>Detailed Report</h3>
-                <div style={styles.tableWrapper}>
-                  <table style={styles.table}>
+              <div style={styles.tableCard} className="p-3 p-md-4">
+                <h3 style={styles.tableTitle} className="fs-5 mb-3">Detailed Report</h3>
+                <div className="table-responsive">
+                  <table className="table table-hover mb-0" style={styles.table}>
                     <thead>
                       <tr>
                         <th style={styles.th}>Period</th>
@@ -364,77 +376,79 @@ const AdminReports = () => {
           {loading ? (
             <Loading text="Generating performance report..." />
           ) : performanceData.length > 0 ? (
-            <>
-              <div style={styles.performanceGrid}>
+            <div className="p-3 p-md-4">
+              <div className="row g-3">
                 {performanceData.map((emp) => (
-                  <div key={emp.employee._id || emp.employee.employeeId} style={styles.performanceCard}>
-                    <div style={styles.employeeHeader}>
-                      <div style={styles.employeeInfo}>
-                        <h4 style={styles.employeeName}>{emp.employee.name}</h4>
-                        <p style={styles.employeeId}>{emp.employee.employeeId}</p>
-                      </div>
-                      <div style={styles.employeeStats}>
-                        <div style={styles.stat}>
-                          <span style={styles.statLabel}>Total Works</span>
-                          <span style={styles.statValue}>{emp.stats.totalWorks}</span>
+                  <div key={emp.employee._id || emp.employee.employeeId} className="col-12 col-md-6 col-lg-4">
+                    <div style={styles.performanceCard} className="h-100">
+                      <div className="d-flex justify-content-between align-items-start mb-3">
+                        <div style={styles.employeeInfo}>
+                          <h4 style={styles.employeeName} className="fs-5">{emp.employee.name}</h4>
+                          <p style={styles.employeeId}>{emp.employee.employeeId}</p>
                         </div>
-                        <div style={styles.stat}>
-                          <span style={styles.statLabel}>Completion Rate</span>
-                          <span style={styles.statValue}>{emp.stats.completionRate}%</span>
+                        <div style={styles.employeeStats}>
+                          <div style={styles.stat} className="mb-2">
+                            <span style={styles.statLabel}>Total Works</span>
+                            <span style={styles.statValue} className="ms-2">{emp.stats.totalWorks}</span>
+                          </div>
+                          <div style={styles.stat}>
+                            <span style={styles.statLabel}>Completion Rate</span>
+                            <span style={styles.statValue} className="ms-2">{emp.stats.completionRate}%</span>
+                          </div>
                         </div>
                       </div>
-                    </div>
 
-                    <div style={styles.progressContainer}>
-                      <div style={styles.progressLabel}>
-                        <span>Work Progress</span>
-                        <span>{emp.stats.completedWorks}/{emp.stats.totalWorks}</span>
+                      <div style={styles.progressContainer}>
+                        <div style={styles.progressLabel}>
+                          <span>Work Progress</span>
+                          <span>{emp.stats.completedWorks}/{emp.stats.totalWorks}</span>
+                        </div>
+                        <div style={styles.progressBar}>
+                          <div
+                            style={{
+                              ...styles.progressFill,
+                              backgroundColor: '#27ae60',
+                              width: `${emp.stats.totalWorks > 0 ? (emp.stats.completedWorks / emp.stats.totalWorks) * 100 : 0}%`
+                            }}
+                          ></div>
+                        </div>
                       </div>
-                      <div style={styles.progressBar}>
-                        <div
-                          style={{
-                            ...styles.progressFill,
-                            backgroundColor: '#27ae60',
-                            width: `${emp.stats.totalWorks > 0 ? (emp.stats.completedWorks / emp.stats.totalWorks) * 100 : 0}%`
-                          }}
-                        ></div>
-                      </div>
-                    </div>
 
-                    <div style={styles.paymentContainer}>
-                      <div style={styles.paymentLabel}>
-                        <span>Payment Collection</span>
-                        <span>{emp.stats.paidAmount}/{emp.stats.totalAmount}</span>
+                      <div style={styles.paymentContainer}>
+                        <div style={styles.paymentLabel}>
+                          <span>Payment Collection</span>
+                          <span>{emp.stats.paidAmount}/{emp.stats.totalAmount}</span>
+                        </div>
+                        <div style={styles.progressBar}>
+                          <div
+                            style={{
+                              ...styles.progressFill,
+                              backgroundColor: '#3498db',
+                              width: `${emp.stats.totalAmount > 0 ? (emp.stats.paidAmount / emp.stats.totalAmount) * 100 : 0}%`
+                            }}
+                          ></div>
+                        </div>
                       </div>
-                      <div style={styles.progressBar}>
-                        <div
-                          style={{
-                            ...styles.progressFill,
-                            backgroundColor: '#3498db',
-                            width: `${emp.stats.totalAmount > 0 ? (emp.stats.paidAmount / emp.stats.totalAmount) * 100 : 0}%`
-                          }}
-                        ></div>
-                      </div>
-                    </div>
 
-                    <div style={styles.amounts}>
-                      <div style={styles.amountItem}>
-                        <span style={styles.amountLabel}>Total Amount</span>
-                        <span style={styles.amountValue}>{formatCurrency(emp.stats.totalAmount)}</span>
-                      </div>
-                      <div style={styles.amountItem}>
-                        <span style={styles.amountLabel}>Paid Amount</span>
-                        <span style={{ ...styles.amountValue, color: '#27ae60' }}>{formatCurrency(emp.stats.paidAmount)}</span>
-                      </div>
-                      <div style={styles.amountItem}>
-                        <span style={styles.amountLabel}>Pending Amount</span>
-                        <span style={{ ...styles.amountValue, color: '#e74c3c' }}>{formatCurrency(emp.stats.pendingAmount)}</span>
+                      <div style={styles.amounts}>
+                        <div style={styles.amountItem}>
+                          <span style={styles.amountLabel}>Total Amount</span>
+                          <span style={styles.amountValue}>{formatCurrency(emp.stats.totalAmount)}</span>
+                        </div>
+                        <div style={styles.amountItem}>
+                          <span style={styles.amountLabel}>Paid Amount</span>
+                          <span style={{ ...styles.amountValue, color: '#27ae60' }}>{formatCurrency(emp.stats.paidAmount)}</span>
+                        </div>
+                        <div style={styles.amountItem}>
+                          <span style={styles.amountLabel}>Pending Amount</span>
+                          <span style={{ ...styles.amountValue, color: '#e74c3c' }}>{formatCurrency(emp.stats.pendingAmount)}</span>
+                        </div>
                       </div>
                     </div>
                   </div>
                 ))}
               </div>
-            </>
+            </div>
           ) : (
             <div style={styles.noData}>
               <p>No performance data available.</p>

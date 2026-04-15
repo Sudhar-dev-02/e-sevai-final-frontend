@@ -1,4 +1,6 @@
 import React, { useEffect } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { ToastProvider } from './components/common/Toast';
@@ -115,7 +117,8 @@ function App() {
 const styles = {
   app: {
     minHeight: '100vh',
-    backgroundColor: '#f8f9fa'
+    backgroundColor: '#f8f9fa',
+    overflowX: 'hidden'
   },
   content: {
     padding: '20px',
